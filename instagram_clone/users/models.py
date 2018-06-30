@@ -5,6 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 # 장고 default 장고 유저모델이 있음
 # 그걸 상속받아 사용하는중
+
+
 class User(AbstractUser):
 
     GENDER_CHOICES = {
@@ -20,6 +22,8 @@ class User(AbstractUser):
     bio = models.TextField(null=True)
     phone = models.CharField(max_length=140, null=True)
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
+    followers = models.ManyToManyField("self")
+    following = models.ManyToManyField("self")
 
     def __str__(self):
         return self.username
