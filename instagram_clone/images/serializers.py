@@ -1,3 +1,4 @@
+# python object를 json으로 변형해주는 것이 serializers
 from rest_framework import serializers
 from . from models
 
