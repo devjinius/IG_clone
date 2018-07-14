@@ -27,13 +27,13 @@ class Image(TimeStampModel):
 class Comment(TimeStampModel):
     message = models.TextField()
     creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True)
-    image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True)
+    image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True, related_name='comments')
 
 
 @python_2_unicode_compatible
 class Like(TimeStampModel):
     creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True)
-    image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True)
+    image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True, related_name='likes')
 
     def __str__(self):
         return '{} {}'.format(self.creator.username, self.image.caption)
