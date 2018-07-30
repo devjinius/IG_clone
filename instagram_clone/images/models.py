@@ -17,10 +17,19 @@ class Image(TimeStampModel):
     file = models.ImageField()
     location = models.CharField(max_length=140)
     caption = models.TextField()
-    creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True)
+    creator = models.ForeignKey(user_model.User, on_delete=models.PROTECT, null=True, related_name='images')
+
+    # 프로퍼티는 펑션이다.
+    # 프로퍼티는 필드인데 데이터로 가지는 않고 모델에 들어만 있다.
+    @property
+    def likes_count(self):
+        return self.likes.all().count()
 
     def __str__(self):
         return '{} - {}'.format(self.location, self.caption)
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 @python_2_unicode_compatible
