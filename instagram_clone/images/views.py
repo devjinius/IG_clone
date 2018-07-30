@@ -34,6 +34,13 @@ def get_key(image):
     return image.created_at
 
 
+class LikeImage(APIView):
+
+    def get(self, request, image_id, format=None):
+
+        print(image_id)
+        return Response(status=200)
+
 # this is test
 # class ListAllImage(APIView):
 
