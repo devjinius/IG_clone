@@ -65,34 +65,56 @@ class LikeImage(APIView):
 
         return Response(status=status.HTTP_201_CREATED)
 
-# this is test
-# class ListAllImage(APIView):
 
-#     def get(self, request, format=None):
-#         # ORM으로 가져오고(model), serelize해서 반환
+class LikeImage(APIView):
 
-#         all_images = models.Image.objects.all()
+    def get(self, request, image_id, format=None):
 
-#         serializedImages = serializers.ImageSerializer(all_images, many=True)
+        cur_user = request.user
 
-#         return Response(data=serializedImages.data)
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-# class ListAllComments(APIView):
+        try:
+            pre_existing_like = models.Like.objects.get(
+                creator=cur_user,
+                image=found_image
+            )
 
-#     def get(self, request, format=None):
+            pre_existing_like.delete()
 
-#         all_comments = models.Comment.objects.filter(creator=request.user.id)
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
-#         serializedComments = serializers.CommentSerializer(all_comments, many=True)
+        except models.Like.DoesNotExist:
 
-#         return Response(data=serializedComments.data)
+            models.Like.objects.create(
+                creator=cur_user,
+                image=found_image
+            )
 
-# class ListAllLikes(APIView):
+        return Response(status=status.HTTP_201_CREATED)
 
-#     def get(self, request, format=None):
 
-#         all_likes = models.Like.objects.all()
+class CreateComment(APIView):
 
-#         serializedLikes = serializers.LikeSerializer(all_likes, many=True)
+    def post(self, request, image_id, format=None):
 
-#         return Response(data=serializedLikes.data)
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.CommentSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            serializer.save(
+                creator=request.user,
+                image=found_image
+            )
+
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(status=200)
