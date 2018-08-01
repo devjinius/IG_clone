@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import models, serializers
+from rest_framework import status
 
 # feed는 팔로잉 한 유저의 가장 최근 사진이 타임라인에 올라온다.
 
@@ -38,8 +39,31 @@ class LikeImage(APIView):
 
     def get(self, request, image_id, format=None):
 
-        print(image_id)
-        return Response(status=200)
+        cur_user = request.user
+
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            pre_existing_like = models.Like.objects.get(
+                creator=cur_user,
+                image=found_image
+            )
+
+            pre_existing_like.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except models.Like.DoesNotExist:
+
+            models.Like.objects.create(
+                creator=cur_user,
+                image=found_image
+            )
+
+        return Response(status=status.HTTP_201_CREATED)
 
 # this is test
 # class ListAllImage(APIView):
