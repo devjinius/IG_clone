@@ -1,6 +1,6 @@
 # python object를 json으로 변형해주는 것이 serializers
 from rest_framework import serializers
-from instagram_clone.images  import serializers as image_serializers
+from instagram_clone.images import serializers as image_serializers
 from . import models
 
 
@@ -23,7 +23,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
 
 
-class ExploreUserSerializer(serializers.ModelSerializer):
+class ListUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
