@@ -67,6 +67,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',  # REST Framework
+    'taggit',  # Tags for the photos
 ]
 LOCAL_APPS = [
     'instagram_clone.users.apps.UsersAppConfig',
@@ -238,3 +239,4 @@ SOCIALACCOUNT_ADAPTER = 'instagram_clone.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+TAGGIT_CASE_INSENSITIVE = True
