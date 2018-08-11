@@ -4,6 +4,16 @@ from . import models
 from instagram_clone.users import models as user_model
 
 
+class SmallImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = models.Image
+        fields = (
+            'file',
+        )
+
+
 class UserProfileImageSerializer(serializers.ModelSerializer):
 
     class Meta:
