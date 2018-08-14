@@ -76,3 +76,13 @@ class ImageSerializer(serializers.ModelSerializer):
             # 기본적으로는 comment_set
             'comments'
         )
+
+
+class InputImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+            'location',
+            'caption',
+        )
