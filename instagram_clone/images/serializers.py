@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from . import models
 from instagram_clone.users import models as user_model
+from taggit_serializer.serializers import (TagListSerializerField, TaggitSerializer)
 
 
 class SmallImageSerializer(serializers.ModelSerializer):
@@ -56,10 +57,11 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     comments = CommentSerializer(many=True)
     creator = FeedUserSerializer()
+    tags = TagListSerializerField()
 
     class Meta:
         model = models.Image
@@ -71,7 +73,7 @@ class ImageSerializer(serializers.ModelSerializer):
             'created_at',
             'likes_count',
             'creator',
-
+            'tags',
             # hidden field -> 이 이미지에 belongs to 된 comments
             # 기본적으로는 comment_set
             'comments'
