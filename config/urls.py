@@ -18,7 +18,9 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("images/", include("instagram_clone.images.urls", namespace="images")),
     path("notifications/", include("instagram_clone.notifications.urls", namespace="notifications")),
-    path("api-token-auth/", obtain_jwt_token),
+    # path("api-token-auth/", obtain_jwt_token),
+    path("rest-auth/", include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls'))
 
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
