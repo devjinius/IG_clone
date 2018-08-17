@@ -6,7 +6,7 @@ app_name = "images"
 urlpatterns = [
     # url has 3 param
     # regex, view, name
-    path("", view=views.Feed.as_view(), name="feed"),
+    path("", view=views.Images.as_view(), name="feed"),
     path("<int:image_id>", view=views.ImageDetail.as_view(), name="show_image"),
     path("<int:image_id>/likes/", view=views.LikeImage.as_view(), name="like_image"),
     path("<int:image_id>/comments/", view=views.CreateComment.as_view(), name="create_comment"),
