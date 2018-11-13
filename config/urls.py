@@ -1,10 +1,11 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from rest_framework_jwt.views import obtain_jwt_token
+from instagram_clone import views
 
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
@@ -20,7 +21,9 @@ urlpatterns = [
     path("notifications/", include("instagram_clone.notifications.urls", namespace="notifications")),
     # path("api-token-auth/", obtain_jwt_token),
     path("rest-auth/", include('rest_auth.urls')),
-    path('rest-auth/registration/', include('rest_auth.registration.urls'))
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path("", views.ReactAppView.as_view()),
+    re_path(r'^.*/$', views.ReactAppView.as_view()),
 
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
