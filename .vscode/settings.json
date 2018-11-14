@@ -1,6 +1,6 @@
 {
   "python.pythonPath":
-    "C:\\Python35\\python.exe",
-    "python.linting.pylintEnabled": true,
+    "C:\\Users\\eugen\\.virtualenvs\\IG_clone-Vn_CEoz4\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": false,
     "python.linting.enabled": true
   }
